@@ -96,7 +96,7 @@ export default function match (node, options) {
     length = path.length
   }
 
-  if (element === root) {
+  if (element === root && root.nodeType === 1) {
     const pattern = findPattern(priority, element, ignore)
     path.unshift(pattern)
   }
@@ -190,7 +190,7 @@ function findAttributesPattern (priority, element, ignore) {
 function checkTag (element, ignore, path, parent = element.parentNode) {
   const pattern = findTagPattern(element, ignore)
   if (pattern) {
-    const matches = parent.getElementsByTagName(pattern)
+    const matches = parent.querySelectorAll(pattern)
     if (matches.length === 1) {
       path.unshift(pattern)
       return true
