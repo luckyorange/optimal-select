@@ -93,6 +93,7 @@ export default function match (node, options) {
     }
 
     element = element.parentNode
+    if (!element) break
     length = path.length
   }
 
@@ -136,6 +137,7 @@ function checkAttributes (priority, element, ignore, path, parent = element.pare
  */
 function findAttributesPattern (priority, element, ignore) {
   const attributes = element.attributes
+  if (!attributes || attributes.length === 0) return null
   const sortedKeys = Object.keys(attributes).sort((curr, next) => {
     const currPos = priority.indexOf(attributes[curr].name)
     const nextPos = priority.indexOf(attributes[next].name)
