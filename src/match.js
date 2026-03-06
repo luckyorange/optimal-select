@@ -152,6 +152,7 @@ function findAttributesPattern (priority, element, ignore) {
     const key = sortedKeys[i]
     const attribute = attributes[key]
     const attributeName = attribute.name
+    const escapedAttributeName = attributeName.replace(/:/g, '\\:')
     const attributeValue = escapeValue(attribute.value)
 
     const currentIgnore = ignore[attributeName] || ignore.attribute
@@ -160,7 +161,7 @@ function findAttributesPattern (priority, element, ignore) {
       continue
     }
 
-    var pattern = `[${attributeName}="${attributeValue}"]`
+    var pattern = `[${escapedAttributeName}="${attributeValue}"]`
 
     if ((/\b\d/).test(attributeValue) === false) {
       if (attributeName === 'id') {
