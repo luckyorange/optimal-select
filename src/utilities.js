@@ -28,6 +28,6 @@ export function convertNodeList (nodes) {
  * @return {String}        - [description]
  */
 export function escapeValue (value) {
-  return value && value.replace(/['"`\\/:\?&!#$%^()[\]{|}*+;,.<=>@~]/g, '\\$&')
+  return value && value.replace(/['"`\\:\?&!#$%^()[\]{|}*+;,.<=>@~]/g, '\\$&')
                        .replace(/\n/g, '')
 }

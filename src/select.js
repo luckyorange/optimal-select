@@ -73,7 +73,8 @@ export function getMultiSelector (elements, options = {}) {
   const descendantSelector = commonSelectors[0]
 
   const selector = optimize(`${ancestorSelector} ${descendantSelector}`, elements, options)
-  const selectorMatches = convertNodeList(document.querySelectorAll(selector))
+  const root = options.root || document
+  const selectorMatches = convertNodeList(root.querySelectorAll(selector))
 
   if (!elements.every((element) => selectorMatches.some((entry) => entry === element) )) {
     // TODO: cluster matches to split into similar groups for sub selections

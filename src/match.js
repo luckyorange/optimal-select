@@ -93,10 +93,11 @@ export default function match (node, options) {
     }
 
     element = element.parentNode
+    if (!element) break
     length = path.length
   }
 
-  if (element === root) {
+  if (element === root && root.nodeType === 1) {
     const pattern = findPattern(priority, element, ignore)
     path.unshift(pattern)
   }
@@ -136,6 +137,7 @@ function checkAttributes (priority, element, ignore, path, parent = element.pare
  */
 function findAttributesPattern (priority, element, ignore) {
   const attributes = element.attributes
+  if (!attributes || attributes.length === 0) return null
   const sortedKeys = Object.keys(attributes).sort((curr, next) => {
     const currPos = priority.indexOf(attributes[curr].name)
     const nextPos = priority.indexOf(attributes[next].name)
@@ -152,6 +154,7 @@ function findAttributesPattern (priority, element, ignore) {
     const key = sortedKeys[i]
     const attribute = attributes[key]
     const attributeName = attribute.name
+    const escapedAttributeName = attributeName.replace(/:/g, '\\:')
     const attributeValue = escapeValue(attribute.value)
 
     const currentIgnore = ignore[attributeName] || ignore.attribute
@@ -160,7 +163,7 @@ function findAttributesPattern (priority, element, ignore) {
       continue
     }
 
-    var pattern = `[${attributeName}="${attributeValue}"]`
+    var pattern = `[${escapedAttributeName}="${attributeValue}"]`
 
     if ((/\b\d/).test(attributeValue) === false) {
       if (attributeName === 'id') {
@@ -190,7 +193,7 @@ function findAttributesPattern (priority, element, ignore) {
 function checkTag (element, ignore, path, parent = element.parentNode) {
   const pattern = findTagPattern(element, ignore)
   if (pattern) {
-    const matches = parent.getElementsByTagName(pattern)
+    const matches = parent.querySelectorAll(pattern)
     if (matches.length === 1) {
       path.unshift(pattern)
       return true

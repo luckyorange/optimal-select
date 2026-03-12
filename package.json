@@ -1,7 +1,7 @@
 {
   "name": "optimal-select",
   "description": "Get efficient & robust CSS selectors for HTML elements",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "author": "Stefan Dühring | Autarc <autarc@gmail.com>",
   "bugs": {
     "url": "https://github.com/Autarc/optimal-select/issues"
@@ -13,6 +13,7 @@
     "babel-preset-stage-0": "^6.16.0",
     "babel-register": "^6.16.3",
     "cheerio": "^0.22.0",
+    "cross-env": "^7.0.3",
     "deep-merge": "^1.0.0",
     "fs-extra": "^1.0.0",
     "gulp": "^3.9.1",
@@ -43,8 +44,11 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "check": "npm outdated -depth 0",
-    "build": "NODE_ENV=production node build",
-    "dev": "NODE_ENV=development node build",
+    "build": "cross-env NODE_ENV=production node build",
+    "dev": "cross-env NODE_ENV=development node build",
     "example": "open-url 'http:/localhost:8080/example' && http-server"
+  },
+  "overrides": {
+    "graceful-fs": "^4.2.0"
   }
 }
